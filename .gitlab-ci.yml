@@ -15,7 +15,7 @@ workflow:
 build:
   stage: build
   before_script:
-    - go get .
+    - go get ./...
   script:
     - go build -o apiserver
     - chmod a+x apiserver # (not sure if this is needed)
