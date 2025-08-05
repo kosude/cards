@@ -15,13 +15,14 @@ workflow:
 build:
   stage: build
   before_script:
-    - go get ./...
+    - apk add --no-cache make
+    - make dependencies
   script:
-    - go build -o apiserver
+    - make build
     - chmod a+x apiserver # (not sure if this is needed)
   artifacts:
     paths:
-      - apiserver
+      - build # build output
       - config # config yamls directory
 
 # secure-copy for apiserver binary transmission to the webserver
@@ -39,6 +40,6 @@ scp_binary:
         $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST "rm -rf apiserver config"
     # ...and then send the new data to the server:
     - scp -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
-        apiserver $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/apiserver
+        build/apiserver $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/apiserver
     - scp -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
         -r config $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/ # scp creates the dest config/ directory
