@@ -16,7 +16,6 @@ build:
   stage: build
   before_script:
     - apk add --no-cache make
-    - make dependencies
   script:
     - make build
     - chmod a+x build/apiserver # (not sure if this is needed)

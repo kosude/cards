@@ -28,8 +28,8 @@ func New() Logger {
 	// output to stdout instead of the default stderr
 	lr.SetOutput(os.Stdout)
 
-	// by default, output info warnings and above
-	lr.SetLevel(logrus.WarnLevel)
+	// by default, output info and above
+	lr.SetLevel(logrus.InfoLevel)
 
 	return Logger{
 		lr: lr,
@@ -41,7 +41,7 @@ func (l *Logger) SetVerbose(verbose bool) {
 	if verbose {
 		l.lr.SetLevel(logrus.DebugLevel)
 	} else {
-		l.lr.SetLevel(logrus.WarnLevel)
+		l.lr.SetLevel(logrus.InfoLevel)
 	}
 }
 

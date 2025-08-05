@@ -9,6 +9,7 @@ package config
 
 import (
 	"os"
+	"strings"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"gitlab.com/kosude/cards/internal/logger"
@@ -17,21 +18,20 @@ import (
 
 // default config values
 const default_serverPort = 8100
+const default_routeBase = ""
 
 // An API env configuration
 type Config struct {
 	ServerPort int    `yaml:"server_port"`
 	DeployType string `yaml:"deployment_type"`
+	RouteBase  string `yaml:"route_base"`
 }
 
 // Return a configuration struct which is derived from a specified configuration YAML file
 func LoadYaml(file string, logger logger.Logger) (*Config, error) {
 	c := Config{
 		ServerPort: default_serverPort,
-	}
-
-	if file == "" {
-		return &c, nil
+		RouteBase:  default_routeBase,
 	}
 
 	// read yaml file into c
@@ -42,6 +42,10 @@ func LoadYaml(file string, logger logger.Logger) (*Config, error) {
 	if err = yaml.Unmarshal(bytes, &c); err != nil {
 		return nil, err
 	}
+
+	// trim ending slash from the route base, if present
+	c.RouteBase = strings.TrimSuffix(c.RouteBase, "/")
+	println(c.RouteBase)
 
 	// validate final environment struct
 	if err = c.validate(); err != nil {
