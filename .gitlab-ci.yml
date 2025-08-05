@@ -19,7 +19,7 @@ build:
     - make dependencies
   script:
     - make build
-    - chmod a+x apiserver # (not sure if this is needed)
+    - chmod a+x build/apiserver # (not sure if this is needed)
   artifacts:
     paths:
       - build # build output
