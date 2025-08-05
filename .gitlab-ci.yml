@@ -31,5 +31,7 @@ scp_binary:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+    - ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST "rm -f apiserver"
+    - scp -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
         apiserver $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/apiserver
