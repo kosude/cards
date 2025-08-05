@@ -11,27 +11,34 @@ workflow:
       when: never
     - if: $CI_COMMIT_BRANCH == "main"
 
+# build the project
 build:
   stage: build
   before_script:
     - go get .
   script:
     - go build -o apiserver
-    - chmod a+x apiserver
+    - chmod a+x apiserver # (not sure if this is needed)
   artifacts:
     paths:
       - apiserver
+      - config # config yamls directory
 
+# secure-copy for apiserver binary transmission to the webserver
 scp_binary:
   stage: deploy
   before_script:
-    - apk add --no-cache openssh coreutils
+    - apk add --no-cache openssh coreutils # for ssh stuff and base64
     - eval $(ssh-agent -s)
     - echo "$SSH_DEPLOY_PRIVATE_KEY_B64" | base64 -d | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
+    # recieved errors from the server when replacing files for some reason, so remove previous artifacts first...
     - ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
-        $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST "rm -f apiserver"
+        $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST "rm -rf apiserver config"
+    # ...and then send the new data to the server:
     - scp -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
         apiserver $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/apiserver
+    - scp -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        -r config $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/ # scp creates the dest config/ directory
