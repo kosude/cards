@@ -7,8 +7,14 @@
 
 package main
 
-import "gitlab.com/kosude/cards/app"
+import (
+	"log"
+	"net"
+	"net/http"
+)
 
 func main() {
-	app.NewApp().Run()
+	addr := net.JoinHostPort("::", "8100")
+	server := &http.Server{Addr: addr}
+	log.Fatalln(server.ListenAndServe())
 }
