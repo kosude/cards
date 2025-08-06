@@ -11,7 +11,6 @@ import (
 	"os"
 	"strings"
 
-	validation "github.com/go-ozzo/ozzo-validation"
 	"gitlab.com/kosude/cards/internal/logger"
 	"gopkg.in/yaml.v3"
 )
@@ -45,34 +44,6 @@ func LoadYaml(file string, logger logger.Logger) (*Config, error) {
 
 	// trim ending slash from the route base, if present
 	c.RouteBase = strings.TrimSuffix(c.RouteBase, "/")
-	println(c.RouteBase)
-
-	// validate final environment struct
-	if err = c.validate(); err != nil {
-		return nil, err
-	}
 
 	return &c, err
-}
-
-// Validate the config struct
-func (c *Config) validate() error {
-	// any required fields validated here
-	return validation.ValidateStruct(c,
-		// deployment_type is required
-		validation.Field(
-			&c.DeployType, validation.Required,
-		),
-		// deployment_type is within an enum
-		validation.Field(
-			&c.DeployType,
-			validation.NewStringRule(
-				func(v string) bool {
-					// must be either "development" or "production".
-					if v != "development" && v != "production" {
-						return false
-					}
-					return true
-				}, "deployment_type must be one of ['development', 'production']")),
-	)
 }

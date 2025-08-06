@@ -9,12 +9,12 @@ package main
 
 import (
 	"net"
-	"net/http"
 	"os"
 	"strconv"
-	"time"
 
-	routing "github.com/go-ozzo/ozzo-routing/v2"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"gitlab.com/kosude/cards/cmd/server/router"
 	"gitlab.com/kosude/cards/internal/config"
 	"gitlab.com/kosude/cards/internal/logger"
 )
@@ -40,18 +40,38 @@ func main() {
 		log.Warnf("Running in a development environment")
 	}
 
-	// build HTTP server
 	addr := net.JoinHostPort("::", strconv.Itoa(cfg.ServerPort))
-	server := &http.Server{
-		Addr:    addr,
-		Handler: buildRouter(cfg.RouteBase),
-	}
 
-	// start HTTP server with graceful shutdown
-	go routing.GracefulShutdown(server, 10*time.Second, log.Infof)
-	log.Infof("Server running at http://%v", addr)
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Errorf("%v", err)
-		os.Exit(1)
-	}
+	e := echo.New()
+	e.HideBanner = true
+
+	setupRoutes(e, cfg)
+	setupMiddleware(e, &log)
+
+	log.Errorf("%v", e.Start(addr))
+}
+
+// Set up all route handlers on the given Echo instance
+func setupRoutes(e *echo.Echo, cfg *config.Config) {
+	base := e.Group(cfg.RouteBase)
+	v1 := base.Group("/v1")
+
+	router.InitRoutes(v1)
+}
+
+// Set up middleware configuration on the given Echo instance
+func setupMiddleware(e *echo.Echo, log *logger.Logger) {
+	// add trailing slash to request URIs
+	e.Pre(middleware.RemoveTrailingSlash())
+
+	// logging middleware; defer to our logging system
+	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
+		LogMethod: true,
+		LogURI:    true,
+		LogStatus: true,
+		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
+			log.Infof("%v uri: %v, status: %v", v.Method, v.URI, v.Status)
+			return nil
+		},
+	}))
 }
