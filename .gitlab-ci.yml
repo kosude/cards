@@ -28,7 +28,7 @@ build:
 scp_binary:
   stage: deploy
   before_script:
-    - apk add --no-cache openssh coreutils # for ssh stuff and base64
+    - apk add --no-cache openssh coreutils curl
     - eval $(ssh-agent -s)
     - echo "$SSH_DEPLOY_PRIVATE_KEY_B64" | base64 -d | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
