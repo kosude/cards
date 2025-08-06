@@ -42,3 +42,7 @@ scp_binary:
         build/apiserver $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/apiserver
     - scp -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
         -r config $SSH_DEPLOY_USERNAME@$SSH_DEPLOY_HOST:/home/$SSH_DEPLOY_USERNAME/ # scp creates the dest config/ directory
+  after_script:
+    # restart the alwaysdata deployment to show changes
+    - curl -X POST --basic --user "$ALWAYSDATA_RESTART_TOKEN account=$SSH_DEPLOY_USERNAME:"
+      https://api.alwaysdata.com/v1/site${ALWAYSDATA_SITE_ID_SLASHED}restart/
