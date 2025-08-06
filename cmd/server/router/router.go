@@ -7,9 +7,12 @@
 
 package router
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
+	"gitlab.com/kosude/cards/internal/logger"
+)
 
 // Initialise all routes for the base Echo group
-func InitRoutes(grp *echo.Group) {
-	SetDynRoutes(grp)
+func InitRoutes(grp *echo.Group, log *logger.Logger) {
+	SetDynRoutes(grp, log)
 }

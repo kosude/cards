@@ -13,7 +13,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	echomware "github.com/labstack/echo/v4/middleware"
 	"gitlab.com/kosude/cards/cmd/server/router"
 	"gitlab.com/kosude/cards/internal/config"
 	"gitlab.com/kosude/cards/internal/logger"
@@ -45,31 +45,28 @@ func main() {
 	e := echo.New()
 	e.HideBanner = true
 
-	setupRoutes(e, cfg)
+	setupRoutes(e, cfg, &log)
 	setupMiddleware(e, &log)
 
 	log.Errorf("%v", e.Start(addr))
 }
 
 // Set up all route handlers on the given Echo instance
-func setupRoutes(e *echo.Echo, cfg *config.Config) {
+func setupRoutes(e *echo.Echo, cfg *config.Config, log *logger.Logger) {
 	base := e.Group(cfg.RouteBase)
 	v1 := base.Group("/v1")
 
-	router.InitRoutes(v1)
+	router.InitRoutes(v1, log)
 }
 
 // Set up middleware configuration on the given Echo instance
 func setupMiddleware(e *echo.Echo, log *logger.Logger) {
-	// add trailing slash to request URIs
-	e.Pre(middleware.RemoveTrailingSlash())
-
 	// logging middleware; defer to our logging system
-	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
+	e.Use(echomware.RequestLoggerWithConfig(echomware.RequestLoggerConfig{
 		LogMethod: true,
 		LogURI:    true,
 		LogStatus: true,
-		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
+		LogValuesFunc: func(c echo.Context, v echomware.RequestLoggerValues) error {
 			log.Infof("%v uri: %v, status: %v", v.Method, v.URI, v.Status)
 			return nil
 		},
