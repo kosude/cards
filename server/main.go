@@ -44,6 +44,7 @@ func main() {
 
 	e := echo.New()
 	e.HideBanner = true
+	e.Debug = cfg.DeployType == "development" // if in development config, then enable echo debug mode
 
 	setupRoutes(e, cfg, &log)
 	setupMiddleware(e, &log)

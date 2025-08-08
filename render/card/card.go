@@ -54,17 +54,22 @@ func (c *Card) RenderSVG() (string, error) {
 			Layout:  c.layout,
 			Fonts:   c.fonts,
 		},
-		Partials:   []string{},
-		Stylesheet: render.Stylesheet(c.fonts),
+		Partials: []string{},
 	}
+
+	// attempt to render the stylesheet
+	stylesheet, err := render.Stylesheet(c.fonts)
+	if err != nil {
+		return "", err
+	}
+	data.Stylesheet = stylesheet
 
 	// collect partial renders from each toplevel component
 	for _, comp := range c.components {
 		// attempt to render this component
 		str, err := comp.RenderSVG(c.colours, c.layout)
 		if err != nil {
-			// TODO better error handling here
-			continue
+			return "", err
 		}
 		data.Partials = append(data.Partials, str)
 	}
