@@ -16,5 +16,8 @@ func Default() style.Layout {
 		CardHeight:   270,
 		BorderRadius: 4.5,
 		StrokeWidth:  1,
+
+		CardPaddingX: 25,
+		CardPaddingY: 35,
 	}
 }

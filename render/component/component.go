@@ -7,10 +7,12 @@
 
 package component
 
+import "gitlab.com/kosude/cards/render/style"
+
 // General component interface
 type IComponent interface {
 	// Render the component as an SVG element(s)
-	RenderSVG() (string, error)
+	RenderSVG(colours style.Colours, layout style.Layout) (string, error)
 }
 
 // Interface for a component that can have children elements

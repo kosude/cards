@@ -29,7 +29,7 @@ func Languages(c echo.Context, log *logger.Logger) error {
 	// configure card
 	cr := card.New(colours.Nihon(), layouts.Default())
 
-	cr.AddComponent(&component.Label{})
+	cr.AddComponent(component.NewLabel("Most Used Languages"))
 
 	svg, err := cr.RenderSVG()
 	if err != nil {

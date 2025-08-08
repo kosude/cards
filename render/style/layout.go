@@ -13,4 +13,7 @@ type Layout struct {
 	CardHeight   float32 // Height of the card in pixels
 	BorderRadius float32 // Border corner radius
 	StrokeWidth  float32 // Border thickness
+
+	CardPaddingX float32 // Topmost horizontal padding
+	CardPaddingY float32 // Topmost vertical padding
 }

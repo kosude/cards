@@ -18,14 +18,14 @@ type Card struct {
 	// Slice of topmost components in the card
 	components []component.IComponent
 
-	Colours style.Colours // Colour configuration
+	colours style.Colours // Colour configuration
 	layout  style.Layout  // Layout configuration
 }
 
 // Instantiate a new card instance
 func New(col style.Colours, lyt style.Layout) *Card {
 	return &Card{
-		Colours: col,
+		colours: col,
 		layout:  lyt,
 	}
 }
@@ -40,13 +40,6 @@ type cardRenderData struct {
 	render.Data
 
 	Partials []string // rendered toplevel component SVg strings
-
-	// toplevel rect dimensions corrected at runtime to account for stroke width
-	InnerCardWidth  float32
-	InnerCardHeight float32
-
-	CardPosX float32
-	CardPosY float32
 }
 
 // Render a card to an SVG string
@@ -54,7 +47,7 @@ func (c *Card) RenderSVG() (string, error) {
 	// initial card template data
 	data := cardRenderData{
 		Data: render.Data{
-			Colours: c.Colours,
+			Colours: c.colours,
 			Layout:  c.layout,
 		},
 		Partials: []string{},
@@ -63,7 +56,7 @@ func (c *Card) RenderSVG() (string, error) {
 	// collect partial renders from each toplevel component
 	for _, comp := range c.components {
 		// attempt to render this component
-		str, err := comp.RenderSVG()
+		str, err := comp.RenderSVG(c.colours, c.layout)
 		if err != nil {
 			// TODO better error handling here
 			continue
@@ -72,10 +65,10 @@ func (c *Card) RenderSVG() (string, error) {
 	}
 
 	// correct card dimensions and position to account for stroke width
-	data.InnerCardWidth = data.Layout.CardWidth - (data.Layout.StrokeWidth)
-	data.InnerCardHeight = data.Layout.CardHeight - (data.Layout.StrokeWidth)
-	data.CardPosX = data.Layout.StrokeWidth / 2
-	data.CardPosY = data.Layout.StrokeWidth / 2
+	data.Width = data.Layout.CardWidth - (data.Layout.StrokeWidth)
+	data.Height = data.Layout.CardHeight - (data.Layout.StrokeWidth)
+	data.PosX = data.Layout.StrokeWidth / 2
+	data.PosY = data.Layout.StrokeWidth / 2
 
 	cardTpl, err := render.FromTemplate("card.xml", data)
 	if err != nil {

@@ -13,4 +13,9 @@ import "gitlab.com/kosude/cards/render/style"
 type Data struct {
 	Colours style.Colours // Colour configuration
 	Layout  style.Layout  // Layout configuration
+
+	Width  float32 // Width
+	Height float32 // Height
+	PosX   float32 // X position
+	PosY   float32 // Y position
 }
