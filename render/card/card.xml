@@ -2,6 +2,10 @@
      height="{{ .Layout.CardHeight }}"
      viewBox="0 0 {{ .Layout.CardWidth }} {{ .Layout.CardHeight }}"
      xmlns="http://www.w3.org/2000/svg">
+    <style>
+        {{ .Stylesheet }}
+    </style>
+
     <rect x="{{ .PosX }}"
           y="{{ .PosY }}"
           width="{{ .Width }}"
@@ -11,7 +15,9 @@
           fill="{{ .Colours.CardFill.Hex }}"
           stroke="{{ .Colours.CardStroke.Hex }}"/>
 
-    {{ range .Partials }}
-        {{ . }}
-    {{ end}}
+    <g class="card-contents">
+        {{ range .Partials }}
+            {{ . }}
+        {{ end}}
+    </g>
 </svg>

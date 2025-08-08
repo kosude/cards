@@ -1,0 +1,9 @@
+.card-contents {
+    user-select: none;
+}
+
+.label-header {
+    font-family: {{ .Fonts.Header.CSV }}, {{ .Fonts.Fallback.CSV }};
+    font-size: 12.5pt;
+    font-weight: 600;
+}

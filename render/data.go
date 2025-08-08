@@ -13,6 +13,7 @@ import "gitlab.com/kosude/cards/render/style"
 type Data struct {
 	Colours style.Colours // Colour configuration
 	Layout  style.Layout  // Layout configuration
+	Fonts   style.Fonts   // Font configuration
 
 	Width  float32 // Width
 	Height float32 // Height

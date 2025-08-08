@@ -15,6 +15,7 @@ import (
 	"gitlab.com/kosude/cards/render/card"
 	"gitlab.com/kosude/cards/render/component"
 	"gitlab.com/kosude/cards/themes/colours"
+	"gitlab.com/kosude/cards/themes/fonts"
 	"gitlab.com/kosude/cards/themes/layouts"
 	"gitlab.com/kosude/cards/utils/logger"
 )
@@ -27,9 +28,9 @@ func Languages(c echo.Context, log *logger.Logger) error {
 	}
 
 	// configure card
-	cr := card.New(colours.Nihon(), layouts.Default())
+	cr := card.New(colours.Nihon(), layouts.Default(), fonts.DefaultSans())
 
-	cr.AddComponent(component.NewLabel("Most Used Languages"))
+	cr.AddComponent(component.NewLabel("Most Used Languages", component.ClassLabelHeader))
 
 	svg, err := cr.RenderSVG()
 	if err != nil {

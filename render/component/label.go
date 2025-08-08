@@ -12,16 +12,27 @@ import (
 	"gitlab.com/kosude/cards/render/style"
 )
 
+// Enum type for label classes (informs styling)
+type LabelClass string
+
+const (
+	ClassLabelHeader LabelClass = "label-header" // Header/title labels
+)
+
 // Basic text label component
 type Label struct {
-	// label text
+	// Label text
 	text string
+
+	// Class of the label
+	class LabelClass
 }
 
 // Create a new label component
-func NewLabel(text string) *Label {
+func NewLabel(text string, class LabelClass) *Label {
 	return &Label{
-		text: text,
+		text:  text,
+		class: class,
 	}
 }
 
@@ -29,7 +40,8 @@ func NewLabel(text string) *Label {
 type labelRenderData struct {
 	render.Data
 
-	Text string
+	Text  string
+	Class LabelClass
 }
 
 // Render the component as an SVG partial
@@ -40,7 +52,8 @@ func (l *Label) RenderSVG(colours style.Colours, layout style.Layout) (string, e
 			Colours: colours,
 			Layout:  layout,
 		},
-		Text: l.text,
+		Text:  l.text,
+		Class: l.class,
 	}
 
 	// TODO dynamic positioning based on the other components in the card (do in AddComponent)

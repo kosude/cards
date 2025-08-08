@@ -20,13 +20,15 @@ type Card struct {
 
 	colours style.Colours // Colour configuration
 	layout  style.Layout  // Layout configuration
+	fonts   style.Fonts   // Font configuration
 }
 
 // Instantiate a new card instance
-func New(col style.Colours, lyt style.Layout) *Card {
+func New(col style.Colours, lyt style.Layout, fnt style.Fonts) *Card {
 	return &Card{
 		colours: col,
 		layout:  lyt,
+		fonts:   fnt,
 	}
 }
 
@@ -39,7 +41,8 @@ func (c *Card) AddComponent(comp component.IComponent) {
 type cardRenderData struct {
 	render.Data
 
-	Partials []string // rendered toplevel component SVg strings
+	Partials   []string // Rendered toplevel component SVg strings
+	Stylesheet string   // Stylesheet partial
 }
 
 // Render a card to an SVG string
@@ -49,8 +52,10 @@ func (c *Card) RenderSVG() (string, error) {
 		Data: render.Data{
 			Colours: c.colours,
 			Layout:  c.layout,
+			Fonts:   c.fonts,
 		},
-		Partials: []string{},
+		Partials:   []string{},
+		Stylesheet: render.Stylesheet(c.fonts),
 	}
 
 	// collect partial renders from each toplevel component

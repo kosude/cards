@@ -1,6 +1,7 @@
 <g transform="translate({{ .PosX }}, {{ .PosY }})">
     <text x="0"
-          y="0">
+          y="0"
+          class="{{ .Class }}">
         {{ .Text }}
     </text>
 </g>
