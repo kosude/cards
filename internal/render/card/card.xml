@@ -1,4 +1,16 @@
-<svg>
+<svg width="{{ .Layout.CardWidth }}"
+     height="{{ .Layout.CardHeight }}"
+     viewBox="0 0 {{ .Layout.CardWidth }} {{ .Layout.CardHeight }}"
+     xmlns="http://www.w3.org/2000/svg">
+    <rect x="{{ .CardPosX }}"
+          y="{{ .CardPosY }}"
+          width="{{ .InnerCardWidth }}"
+          height="{{ .InnerCardHeight }}"
+          rx="{{ .Layout.BorderRadius }}"
+          stroke-width="{{ .Layout.StrokeWidth }}"
+          fill="{{ .Colours.CardFill.Hex }}"
+          stroke="{{ .Colours.CardStroke.Hex }}"/>
+
     {{ range .Partials }}
         {{ . }}
     {{ end}}

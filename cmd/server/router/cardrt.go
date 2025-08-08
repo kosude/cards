@@ -9,15 +9,15 @@ package router
 
 import (
 	"github.com/labstack/echo/v4"
-	"gitlab.com/kosude/cards/controllers/dyn"
+	"gitlab.com/kosude/cards/controllers/card"
 	"gitlab.com/kosude/cards/internal/logger"
 )
 
-// Set all routes under the /dyn/ group
-func SetDynRoutes(base *echo.Group, log *logger.Logger) {
-	g := base.Group("/dyn")
+// Set all generation routes under the /card/ group
+func SetCardRoutes(base *echo.Group, log *logger.Logger) {
+	g := base.Group("/card")
 
 	g.GET("/languages", func(c echo.Context) error {
-		return dyn.Languages(c, log)
+		return card.Languages(c, log)
 	})
 }

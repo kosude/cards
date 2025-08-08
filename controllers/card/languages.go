@@ -5,7 +5,7 @@
  * See the LICENCE file for more information.
  */
 
-package dyn
+package card
 
 import (
 	"net/http"
@@ -15,6 +15,8 @@ import (
 	"gitlab.com/kosude/cards/internal/render"
 	"gitlab.com/kosude/cards/internal/render/card"
 	"gitlab.com/kosude/cards/internal/render/component"
+	"gitlab.com/kosude/cards/internal/render/style"
+	"gitlab.com/kosude/cards/internal/render/style/colourthemes"
 )
 
 // Generate dynamic programming language overview card
@@ -25,7 +27,12 @@ func Languages(c echo.Context, log *logger.Logger) error {
 	}
 
 	// configure card
-	cr := card.New()
+	cr := card.New(colourthemes.Nihon(), style.Layout{
+		CardWidth:    350,
+		CardHeight:   270,
+		BorderRadius: 4.5,
+		StrokeWidth:  1,
+	})
 
 	cr.AddComponent(&component.Label{})
 

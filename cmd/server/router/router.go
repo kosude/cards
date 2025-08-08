@@ -14,5 +14,5 @@ import (
 
 // Initialise all routes for the base Echo group
 func InitRoutes(grp *echo.Group, log *logger.Logger) {
-	SetDynRoutes(grp, log)
+	SetCardRoutes(grp, log)
 }
