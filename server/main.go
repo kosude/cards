@@ -14,9 +14,9 @@ import (
 
 	"github.com/labstack/echo/v4"
 	echomware "github.com/labstack/echo/v4/middleware"
-	"gitlab.com/kosude/cards/cmd/server/router"
-	"gitlab.com/kosude/cards/internal/config"
-	"gitlab.com/kosude/cards/internal/logger"
+	"gitlab.com/kosude/cards/server/router"
+	"gitlab.com/kosude/cards/utils/config"
+	"gitlab.com/kosude/cards/utils/logger"
 )
 
 func main() {

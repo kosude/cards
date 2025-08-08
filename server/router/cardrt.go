@@ -9,8 +9,8 @@ package router
 
 import (
 	"github.com/labstack/echo/v4"
-	"gitlab.com/kosude/cards/controllers/card"
-	"gitlab.com/kosude/cards/internal/logger"
+	"gitlab.com/kosude/cards/server/controllers/card"
+	"gitlab.com/kosude/cards/utils/logger"
 )
 
 // Set all generation routes under the /card/ group

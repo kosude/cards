@@ -12,7 +12,7 @@ import (
 	"embed"
 	"text/template"
 
-	"gitlab.com/kosude/cards/internal/logger"
+	"gitlab.com/kosude/cards/utils/logger"
 )
 
 //go:embed */*.xml

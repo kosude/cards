@@ -7,7 +7,7 @@
 
 package render
 
-import "gitlab.com/kosude/cards/internal/render/style"
+import "gitlab.com/kosude/cards/render/style"
 
 // Common data to be passed to all rendered card/component templates
 type Data struct {

@@ -8,9 +8,9 @@
 package card
 
 import (
-	"gitlab.com/kosude/cards/internal/render"
-	"gitlab.com/kosude/cards/internal/render/component"
-	"gitlab.com/kosude/cards/internal/render/style"
+	"gitlab.com/kosude/cards/render"
+	"gitlab.com/kosude/cards/render/component"
+	"gitlab.com/kosude/cards/render/style"
 )
 
 // Struct containing per-card info and components for rendering

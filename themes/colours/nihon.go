@@ -5,9 +5,9 @@
  * See the LICENCE file for more information.
  */
 
-package colourthemes
+package colours
 
-import "gitlab.com/kosude/cards/internal/render/style"
+import "gitlab.com/kosude/cards/render/style"
 
 // Return the 'Nihon' (red and white) colour theme
 func Nihon() style.Colours {

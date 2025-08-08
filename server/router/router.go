@@ -9,7 +9,7 @@ package router
 
 import (
 	"github.com/labstack/echo/v4"
-	"gitlab.com/kosude/cards/internal/logger"
+	"gitlab.com/kosude/cards/utils/logger"
 )
 
 // Initialise all routes for the base Echo group

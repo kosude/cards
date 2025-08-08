@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"gitlab.com/kosude/cards/internal/logger"
+	"gitlab.com/kosude/cards/utils/logger"
 	"gopkg.in/yaml.v3"
 )
 

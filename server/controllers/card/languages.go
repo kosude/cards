@@ -11,12 +11,12 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"gitlab.com/kosude/cards/internal/logger"
-	"gitlab.com/kosude/cards/internal/render"
-	"gitlab.com/kosude/cards/internal/render/card"
-	"gitlab.com/kosude/cards/internal/render/component"
-	"gitlab.com/kosude/cards/internal/render/style"
-	"gitlab.com/kosude/cards/internal/render/style/colourthemes"
+	"gitlab.com/kosude/cards/render"
+	"gitlab.com/kosude/cards/render/card"
+	"gitlab.com/kosude/cards/render/component"
+	"gitlab.com/kosude/cards/themes/colours"
+	"gitlab.com/kosude/cards/themes/layouts"
+	"gitlab.com/kosude/cards/utils/logger"
 )
 
 // Generate dynamic programming language overview card
@@ -27,12 +27,7 @@ func Languages(c echo.Context, log *logger.Logger) error {
 	}
 
 	// configure card
-	cr := card.New(colourthemes.Nihon(), style.Layout{
-		CardWidth:    350,
-		CardHeight:   270,
-		BorderRadius: 4.5,
-		StrokeWidth:  1,
-	})
+	cr := card.New(colours.Nihon(), layouts.Default())
 
 	cr.AddComponent(&component.Label{})
 

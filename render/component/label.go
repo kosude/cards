@@ -7,7 +7,7 @@
 
 package component
 
-import "gitlab.com/kosude/cards/internal/render"
+import "gitlab.com/kosude/cards/render"
 
 // Basic text label component
 type Label struct {
