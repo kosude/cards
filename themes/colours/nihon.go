@@ -7,12 +7,15 @@
 
 package colours
 
-import "gitlab.com/kosude/cards/render/style"
+import (
+	"gitlab.com/kosude/cards/render/style"
+	"gitlab.com/kosude/cards/utils/colour"
+)
 
 // Return the 'Nihon' (red and white) colour theme
 func Nihon() style.Colours {
 	return style.Colours{
-		CardFill:   style.Rgb(254, 254, 254),
-		CardStroke: style.Rgb(210, 210, 210),
+		CardFill:   colour.Rgb(254, 254, 254),
+		CardStroke: colour.Rgb(210, 210, 210),
 	}
 }

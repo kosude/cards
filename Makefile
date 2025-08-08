@@ -2,7 +2,7 @@ SRC_DIR := .
 BUILD_DIR := build
 CONFIG_DIR := config
 
-MAIN_PKG := $(SRC_DIR)/cmd/server
+MAIN_PKG := $(SRC_DIR)/server
 
 .PHONY: build
 build: dependencies
