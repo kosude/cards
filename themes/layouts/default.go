@@ -10,8 +10,8 @@ package layouts
 import "gitlab.com/kosude/cards/render/style"
 
 // Return the default layout configuration
-func Default() style.Layout {
-	return style.Layout{
+func Default() style.LayoutCfg {
+	return style.LayoutCfg{
 		CardWidth:    350,
 		CardHeight:   270,
 		BorderRadius: 4.5,

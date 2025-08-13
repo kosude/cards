@@ -10,6 +10,7 @@ package card
 import (
 	"gitlab.com/kosude/cards/render"
 	"gitlab.com/kosude/cards/render/component"
+	"gitlab.com/kosude/cards/render/layout"
 	"gitlab.com/kosude/cards/render/style"
 )
 
@@ -18,22 +19,27 @@ type Card struct {
 	// Slice of topmost components in the card
 	components []component.IComponent
 
-	colours style.Colours // Colour configuration
-	layout  style.Layout  // Layout configuration
-	fonts   style.Fonts   // Font configuration
+	colours   style.Colours   // Colour configuration
+	layoutCfg style.LayoutCfg // Layout configuration
+	fonts     style.Fonts     // Font configuration
+
+	vertical *layout.Vertical // Topmost vertical layout manager
 }
 
 // Instantiate a new card instance
-func New(col style.Colours, lyt style.Layout, fnt style.Fonts) *Card {
+func New(col style.Colours, lytCfg style.LayoutCfg, fnt style.Fonts) *Card {
 	return &Card{
-		colours: col,
-		layout:  lyt,
-		fonts:   fnt,
+		colours:   col,
+		layoutCfg: lytCfg,
+		fonts:     fnt,
+
+		vertical: layout.NewVertical(lytCfg),
 	}
 }
 
 // Add a component to the card's topmost component list
 func (c *Card) AddComponent(comp component.IComponent) {
+	c.vertical.PushComponent(comp) // update layout, and position the component correctly
 	c.components = append(c.components, comp)
 }
 
@@ -50,9 +56,9 @@ func (c *Card) RenderSVG() (string, error) {
 	// initial card template data
 	data := cardRenderData{
 		Data: render.Data{
-			Colours: c.colours,
-			Layout:  c.layout,
-			Fonts:   c.fonts,
+			Colours:   c.colours,
+			LayoutCfg: c.layoutCfg,
+			Fonts:     c.fonts,
 		},
 		Partials: []string{},
 	}
@@ -67,7 +73,7 @@ func (c *Card) RenderSVG() (string, error) {
 	// collect partial renders from each toplevel component
 	for _, comp := range c.components {
 		// attempt to render this component
-		str, err := comp.RenderSVG(c.colours, c.layout)
+		str, err := comp.RenderSVG(c.colours)
 		if err != nil {
 			return "", err
 		}
@@ -75,10 +81,10 @@ func (c *Card) RenderSVG() (string, error) {
 	}
 
 	// correct card dimensions and position to account for stroke width
-	data.Width = data.Layout.CardWidth - (data.Layout.StrokeWidth)
-	data.Height = data.Layout.CardHeight - (data.Layout.StrokeWidth)
-	data.PosX = data.Layout.StrokeWidth / 2
-	data.PosY = data.Layout.StrokeWidth / 2
+	data.Width = data.LayoutCfg.CardWidth - (data.LayoutCfg.StrokeWidth)
+	data.Height = data.LayoutCfg.CardHeight - (data.LayoutCfg.StrokeWidth)
+	data.PosX = data.LayoutCfg.StrokeWidth / 2
+	data.PosY = data.LayoutCfg.StrokeWidth / 2
 
 	cardTpl, err := render.FromTemplate("card.xml", data)
 	if err != nil {

@@ -31,6 +31,8 @@ func Languages(c echo.Context, log *logger.Logger) error {
 	cr := card.New(colours.Nihon(), layouts.Default(), fonts.DefaultSans())
 
 	cr.AddComponent(component.NewLabel("Most Used Languages", component.ClassLabelHeader))
+	cr.AddComponent(component.NewLabel("Most Used Languages", component.ClassLabelHeader))
+	cr.AddComponent(component.NewLabel("Most Used Languages", component.ClassLabelHeader))
 
 	svg, err := cr.RenderSVG()
 	if err != nil {

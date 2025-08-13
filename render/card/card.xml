@@ -1,6 +1,6 @@
-<svg width="{{ .Layout.CardWidth }}"
-     height="{{ .Layout.CardHeight }}"
-     viewBox="0 0 {{ .Layout.CardWidth }} {{ .Layout.CardHeight }}"
+<svg width="{{ .LayoutCfg.CardWidth }}"
+     height="{{ .LayoutCfg.CardHeight }}"
+     viewBox="0 0 {{ .LayoutCfg.CardWidth }} {{ .LayoutCfg.CardHeight }}"
      xmlns="http://www.w3.org/2000/svg">
     <style>
         {{ .Stylesheet }}
@@ -10,8 +10,8 @@
           y="{{ .PosY }}"
           width="{{ .Width }}"
           height="{{ .Height }}"
-          rx="{{ .Layout.BorderRadius }}"
-          stroke-width="{{ .Layout.StrokeWidth }}"
+          rx="{{ .LayoutCfg.BorderRadius }}"
+          stroke-width="{{ .LayoutCfg.StrokeWidth }}"
           fill="{{ .Colours.CardFill.Hex }}"
           stroke="{{ .Colours.CardStroke.Hex }}"/>
 

@@ -26,6 +26,9 @@ type Label struct {
 
 	// Class of the label
 	class LabelClass
+
+	posX float32 // X position
+	posY float32 // Y position
 }
 
 // Create a new label component
@@ -33,6 +36,9 @@ func NewLabel(text string, class LabelClass) *Label {
 	return &Label{
 		text:  text,
 		class: class,
+
+		posX: 0,
+		posY: 0,
 	}
 }
 
@@ -44,21 +50,18 @@ type labelRenderData struct {
 	Class LabelClass
 }
 
-// Render the component as an SVG partial
-func (l *Label) RenderSVG(colours style.Colours, layout style.Layout) (string, error) {
+// Render the label as an SVG partial
+func (l *Label) RenderSVG(colours style.Colours) (string, error) {
 	// label template data
 	data := labelRenderData{
 		Data: render.Data{
 			Colours: colours,
-			Layout:  layout,
+			PosX:    l.posX,
+			PosY:    l.posY,
 		},
 		Text:  l.text,
 		Class: l.class,
 	}
-
-	// TODO dynamic positioning based on the other components in the card (do in AddComponent)
-	data.PosX = data.Layout.CardPaddingX
-	data.PosY = data.Layout.CardPaddingY
 
 	labelTpl, err := render.FromTemplate("label.xml", data)
 	if err != nil {
@@ -66,4 +69,32 @@ func (l *Label) RenderSVG(colours style.Colours, layout style.Layout) (string, e
 	}
 
 	return labelTpl, nil
+}
+
+// Get the label's width
+func (l *Label) Width() float32 {
+	// TODO calculate average font character width * amount of characters
+	return 0
+}
+
+// Get the label's height
+func (l *Label) Height() float32 {
+	// TODO calculate average font character height * amount of lines
+	return 24
+}
+
+// Set the label's position
+func (l *Label) SetPosition(x float32, y float32) {
+	l.posX = x
+	l.posY = y
+}
+
+// Get the label's X position
+func (l *Label) PosX() float32 {
+	return l.posX
+}
+
+// Get the label's Y position
+func (l *Label) PosY() float32 {
+	return l.posY
 }

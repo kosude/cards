@@ -11,9 +11,9 @@ import "gitlab.com/kosude/cards/render/style"
 
 // Common data to be passed to all rendered card/component templates
 type Data struct {
-	Colours style.Colours // Colour configuration
-	Layout  style.Layout  // Layout configuration
-	Fonts   style.Fonts   // Font configuration
+	Colours   style.Colours   // Colour configuration
+	LayoutCfg style.LayoutCfg // Layout configuration
+	Fonts     style.Fonts     // Font configuration
 
 	Width  float32 // Width
 	Height float32 // Height

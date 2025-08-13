@@ -8,7 +8,7 @@
 package style
 
 // A struct for card layout configuration
-type Layout struct {
+type LayoutCfg struct {
 	CardWidth    float32 // Width of the card in pixels
 	CardHeight   float32 // Height of the card in pixels
 	BorderRadius float32 // Border corner radius
